@@ -10,17 +10,15 @@
 #define COMMAND02 "connect"
 #define COMMAND03 "process"
 
+#define FLUSH " "  //blank string to flush the network in case of delay
+
 using namespace std;
 
 int main(){
     std::string command, operand01, operand02;
     ModuleNetwork *moduleNetwork = ModuleNetwork::GetInstance();
-    /*******/
-    //std::vector<std::string> vvv;
-    //vvv.push_back("Hello");
-    //vvv.push_back("World");
-    /******/
-    
+    std::vector<std::string> outVec;
+    int in_string_count = 0;
     if(!moduleNetwork){
         return -1;
     }
@@ -28,7 +26,8 @@ int main(){
     std::cout<<"Please Enter your inputs below in following format(Press CTRL+C to exit):\n";
     std::cout<<"module <name> <operation>\n";
     std::cout<<"connect <name1> <name2>\n";
-    std::cout<<"process <...list of strings to be processed>\n"<<endl;
+    std::cout<<"process <...list of strings to be processed>"<<endl;
+    std::cout<<"---------------------------------------------"<<endl;
 
     while(1){
         std::cin >> command;
@@ -50,11 +49,15 @@ int main(){
             std::istream_iterator<std::string> begin(ss);
             std::istream_iterator<std::string> end;
             std::vector<std::string> veclistOfStrings(begin, end);
-            //std::copy(vstrings.begin(), vstrings.end(), std::ostream_iterator<std::string>(std::cout, "\n"));
-
-            //std::cout<<"\n"<<moduleNetwork->process(veclistOfStrings)<<endl;
-            moduleNetwork->process(veclistOfStrings);
+            in_string_count = veclistOfStrings.size();
+            veclistOfStrings.push_back(FLUSH);
+            moduleNetwork->process(veclistOfStrings,outVec);
         }
+
+        std::copy(outVec.begin(),outVec.end(),
+			std::ostream_iterator<std::string>(std::cout, " "));
+
+        outVec.clear(); 
         
     }
 

@@ -13,8 +13,6 @@ public:
     
     std::string operation(std::string) const;
 
-    std::string squeezBuffer() const;
-
 private:
     std::string m_name;
     mutable std::string m_buff;   //delay buffer

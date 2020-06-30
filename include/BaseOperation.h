@@ -8,6 +8,7 @@ class BaseOperation {
 
 public:
     virtual std::string operation (std::string) const = 0;
+    virtual ~BaseOperation(){};
 
 private:
     std::string m_name; //name of operation

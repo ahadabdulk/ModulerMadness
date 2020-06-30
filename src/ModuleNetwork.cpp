@@ -2,6 +2,8 @@
 #include <utility>
 #include <iostream>
 
+#define MAX_OUT_TIMES_INPUT 16
+
 ModuleNetwork* ModuleNetwork::instance = 0;
 int ModuleNetwork::modCount = 0;
 
@@ -59,26 +61,28 @@ ModuleNetwork::connect(std::string mod1, std::string mod2){
 }
 
 void
-ModuleNetwork::process(std::vector<std::string> vec){
+ModuleNetwork::process(std::vector<std::string>& vec, std::vector<std::string>& outVec){
+    
+    if(!m_startMod){
+        return;
+    }
+    
     Mlist queue;
-    std::string output = "";
-    for(auto i : vec){
+    for(auto &input : vec){
         queue.push_back(m_startMod);
-        std::string input = i;
         Mptr vertx = queue.front();
         vertx->addIncomingInput("none",input);
         int count = 0;
         while(!queue.empty()){
             Mptr vertx = queue.front();
             if (! vertx->performOperation()){
-                std::cout<<"Operation Failed"<<std::endl;
                 queue.push_back(vertx);
                 queue.pop_front();
             } 
 
             Mlist &adjList = m_modAdjList[vertx];
-            if(adjList.empty()){//No adjacent node, then this is last node.
-               m_outString.push_back(vertx->getOutputValue());
+            if(adjList.empty()){//if No adjacent node, then this is last node. 
+               outVec.push_back(vertx->getOutputValue());
             }
             for(auto &ml : adjList){
                 std::string ip = vertx->getOutputValue();
@@ -88,10 +92,5 @@ ModuleNetwork::process(std::vector<std::string> vec){
             queue.pop_front();
             count++;
             }
-    }
-    
-
-    for(const auto& s : m_outString){
-        std::cout<<s<<" ";
     }
 }

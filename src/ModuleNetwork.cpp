@@ -16,12 +16,20 @@ ModuleNetwork::GetInstance(){
 }
 
 void
-ModuleNetwork::updateModuleCount(){
+ModuleNetwork::DeleteInstance(){
+    if(instance){
+        delete instance;
+        instance = nullptr;
+    }
+}
+
+void
+ModuleNetwork::UpdateModuleCount(){
     ++modCount;
 }
 
 int
-ModuleNetwork::getModuleCount(){
+ModuleNetwork::GetModuleCount(){
     return modCount;
 }
 
@@ -46,8 +54,8 @@ ModuleNetwork::connect(std::string mod1, std::string mod2){
     Mptr &m1 = m_modulesMap[mod1];
     Mptr &m2 = m_modulesMap[mod2];
     m2->addIncomingVertex(m1->getModuleName());
-    m2->setIncomingInputOrder(ModuleNetwork::getModuleCount(),m1->getModuleName());
-    ModuleNetwork::updateModuleCount();
+    m2->setIncomingInputOrder(ModuleNetwork::GetModuleCount(),m1->getModuleName());
+    ModuleNetwork::UpdateModuleCount();
 
     if(!m_isFirstModSet){
         m_startMod = m1;

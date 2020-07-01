@@ -28,8 +28,9 @@ class ModuleNetwork{
 
 public:
     static ModuleNetwork* GetInstance();
-    static void updateModuleCount();
-    static int getModuleCount();
+    static void UpdateModuleCount();
+    static int GetModuleCount();
+    static void DeleteInstance();
 
     void connect(std::string mod1, std::string mod2);
     void addModule(std::shared_ptr<Module> mod);

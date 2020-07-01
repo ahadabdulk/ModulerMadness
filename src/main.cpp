@@ -71,4 +71,6 @@ int main(){
         
     }
 
+    ModuleNetwork::DeleteInstance();
+
 }

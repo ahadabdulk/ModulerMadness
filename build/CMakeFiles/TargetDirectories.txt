@@ -1,3 +1,0 @@
-/Users/abdulahad/Developer/ModulerMadness/build/CMakeFiles/rebuild_cache.dir
-/Users/abdulahad/Developer/ModulerMadness/build/CMakeFiles/edit_cache.dir
-/Users/abdulahad/Developer/ModulerMadness/build/CMakeFiles/main.dir

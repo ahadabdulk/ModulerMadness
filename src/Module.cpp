@@ -1,5 +1,5 @@
 #include "../include/Module.h"
-#include <iostream>
+//#include <iostream>
 
 void
 Module::setInputValue(){

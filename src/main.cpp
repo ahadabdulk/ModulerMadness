@@ -12,22 +12,25 @@
 
 #define FLUSH " "  //blank string to flush the network in case of delay
 
+#define TIMES_INPUT_STRING 16
+
 using namespace std;
 
 int main(){
     std::string command, operand01, operand02;
     ModuleNetwork *moduleNetwork = ModuleNetwork::GetInstance();
     std::vector<std::string> outVec;
-    int in_string_count = 0;
+    int in_strings_count = 0; //count of input strings
+    int out_strings_count = 0; //count of output strings = max upto 16 time input strings
     if(!moduleNetwork){
         return -1;
     }
 
-    std::cout<<"Please Enter your inputs below in following format(Press CTRL+C to exit):\n";
+    /*std::cout<<"Please Enter your inputs below in following format(Press CTRL+C to exit):\n";
     std::cout<<"module <name> <operation>\n";
     std::cout<<"connect <name1> <name2>\n";
     std::cout<<"process <...list of strings to be processed>"<<endl;
-    std::cout<<"---------------------------------------------"<<endl;
+    std::cout<<"---------------------------------------------"<<endl;*/
 
     while(1){
         std::cin >> command;
@@ -49,12 +52,19 @@ int main(){
             std::istream_iterator<std::string> begin(ss);
             std::istream_iterator<std::string> end;
             std::vector<std::string> veclistOfStrings(begin, end);
-            in_string_count = veclistOfStrings.size();
+            in_strings_count = veclistOfStrings.size();
+            out_strings_count = in_strings_count * TIMES_INPUT_STRING;
             veclistOfStrings.push_back(FLUSH);
             moduleNetwork->process(veclistOfStrings,outVec);
         }
 
-        std::copy(outVec.begin(),outVec.end(),
+        //Limit the output string to max upto 16 times input string.
+        auto endItr = outVec.end();
+        if(outVec.size() > out_strings_count){
+            endItr = outVec.begin() + out_strings_count;
+        }
+
+        std::copy(outVec.begin(),endItr,
 			std::ostream_iterator<std::string>(std::cout, " "));
 
         outVec.clear(); 

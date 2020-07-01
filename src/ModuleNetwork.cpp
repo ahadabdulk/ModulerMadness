@@ -1,6 +1,6 @@
 #include "../include/ModuleNetwork.h"
 #include <utility>
-#include <iostream>
+//#include <iostream>
 
 #define MAX_OUT_TIMES_INPUT 16
 
@@ -36,11 +36,11 @@ ModuleNetwork::addModule(std::shared_ptr<Module> m){
 void
 ModuleNetwork::connect(std::string mod1, std::string mod2){
     if(m_modulesMap.find(mod1) == m_modulesMap.end()){
-        std::cout<<"Unable to connect module:"<<mod1<<" , no such module"<<std::endl;
+        //std::cout<<"Unable to connect module:"<<mod1<<" , no such module"<<std::endl;
         return;
     }
     if(m_modulesMap.find(mod2) == m_modulesMap.end()){
-        std::cout<<"Unable to connect module:"<<mod2<<" , no such module"<<std::endl;
+        //std::cout<<"Unable to connect module:"<<mod2<<" , no such module"<<std::endl;
         return;
     }
     Mptr &m1 = m_modulesMap[mod1];

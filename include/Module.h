@@ -9,6 +9,8 @@
 #include "NoopOperation.h"
 #include "DelayOperation.h"
 
+#define INDEGREE_OF_START "none"
+
 typedef std::map<std::string,std::string> IndegreeMap;
 typedef std::map<int,std::string> PriorityOrder;
 

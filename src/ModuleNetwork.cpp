@@ -59,7 +59,7 @@ ModuleNetwork::connect(std::string mod1, std::string mod2){
 
     if(!m_isFirstModSet){
         m_startMod = m1;
-        m_startMod->addIncomingVertex("none"); 
+        m_startMod->addIncomingVertex(INDEGREE_OF_START); 
         m_isFirstModSet = true;
    }
 
@@ -79,10 +79,9 @@ ModuleNetwork::process(std::vector<std::string>& vec, std::vector<std::string>& 
     for(auto &input : vec){
         queue.push_back(m_startMod);
         Mptr vertx = queue.front();
-        vertx->addIncomingInput("none",input);
-        int count = 0;
+        vertx->addIncomingInput(INDEGREE_OF_START,input);
         while(!queue.empty()){
-            Mptr vertx = queue.front();
+            vertx = queue.front();
             if (! vertx->performOperation()){
                 queue.push_back(vertx);
                 queue.pop_front();
@@ -95,10 +94,12 @@ ModuleNetwork::process(std::vector<std::string>& vec, std::vector<std::string>& 
             for(auto &ml : adjList){
                 std::string ip = vertx->getOutputValue();
                 ml->addIncomingInput(vertx->getModuleName(),ip);
+                if(queue.back()->getModuleName() == ml->getModuleName()){
+                    continue;
+                }
                 queue.push_back(ml);
                 }
             queue.pop_front();
-            count++;
             }
     }
 }

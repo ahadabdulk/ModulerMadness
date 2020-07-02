@@ -4,7 +4,8 @@
 void
 Module::setInputValue(){
     if(m_priorityOrderMap.size() == 0){
-        m_input = m_indegreeMap["none"];
+        // considering the start node's in degree node as none as it is first node in to accept the input.
+        m_input = m_indegreeMap[INDEGREE_OF_START];   
         return;
     }
     for(auto i: m_priorityOrderMap){

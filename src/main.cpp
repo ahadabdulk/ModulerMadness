@@ -2,6 +2,7 @@
 #include <vector>
 #include <sstream>
 #include <string>
+#include <regex>
 
 #include "../include/ModuleNetwork.h"
 #include "../include/Module.h"
@@ -10,7 +11,7 @@
 #define COMMAND02 "connect"
 #define COMMAND03 "process"
 
-#define FLUSH " "  //blank string to flush the network in case of delay
+#define FLUSH ""  //blank string to flush the network in case of delay
 
 #define TIMES_INPUT_STRING 16
 
@@ -64,8 +65,14 @@ int main(){
             endItr = outVec.begin() + out_strings_count;
         }
 
+        std::ostringstream outStream;
+        std::string outString;
         std::copy(outVec.begin(),endItr,
-			std::ostream_iterator<std::string>(std::cout, " "));
+			std::ostream_iterator<std::string>(outStream, " "));
+
+        
+        //Cleaning up trailing spaces if any
+        std::cout<<std::regex_replace(outStream.str(), std::regex(" +$"), "");
 
         outVec.clear(); 
         
